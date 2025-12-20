@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -17,21 +19,26 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long jwtExpirationInMs;
 
-    // Generate token
-    public String generateToken(String username) {
+    // Generate token with extra claims (id, role)
+    public String generateToken(Long id, String email, String role) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", id);
+        claims.put("role", role);
+
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
-    // Get username from token
-    public String getUsernameFromToken(String token) {
+    // Get email (subject) from token
+    public String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
