@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.model.VisitRecord;
 import java.util.List;
-
-import com.example.demo.entity.VisitRecord;
 
 public interface VisitRecordService {
 
