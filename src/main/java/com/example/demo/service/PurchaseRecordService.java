@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import java.util.List;
+import com.example.demo.model.PurchaseRecord;
 
-import com.example.demo.entity.PurchaseRecord;
+import java.util.List;
 
 public interface PurchaseRecordService {
 
