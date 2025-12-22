@@ -1,34 +1,54 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.model.TierHistoryRecord;
+import com.example.demo.service.TierUpgradeEngineService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.TierHistoryRecord;
-import com.example.demo.service.TierUpgradeEngineService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tier-engine")
 public class TierUpgradeEngineController {
 
-    private final TierUpgradeEngineService engineService;
+    private final TierUpgradeEngineService tierUpgradeEngineService;
 
-    public TierUpgradeEngineController(TierUpgradeEngineService engineService) {
-        this.engineService = engineService;
+    public TierUpgradeEngineController(TierUpgradeEngineService tierUpgradeEngineService) {
+        this.tierUpgradeEngineService = tierUpgradeEngineService;
     }
 
+   
     @PostMapping("/evaluate/{customerId}")
-    public TierHistoryRecord evaluate(@PathVariable Long customerId) {
-        return engineService.evaluateAndUpgradeTier(customerId);
+    public ResponseEntity<?> evaluateTier(@PathVariable Long customerId) {
+
+        TierHistoryRecord historyRecord =
+                tierUpgradeEngineService.evaluateAndUpgradeTier(customerId);
+
+        if (historyRecord == null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("No tier upgrade criteria met");
+        }
+
+        return ResponseEntity.ok(historyRecord);
     }
 
+    
     @GetMapping("/history/{customerId}")
-    public List<TierHistoryRecord> historyByCustomer(@PathVariable Long customerId) {
-        return engineService.getHistoryByCustomer(customerId);
+    public ResponseEntity<List<TierHistoryRecord>> getHistoryByCustomer(
+            @PathVariable Long customerId
+    ) {
+        return ResponseEntity.ok(
+                tierUpgradeEngineService.getHistoryByCustomer(customerId)
+        );
     }
 
+    
     @GetMapping
-    public List<TierHistoryRecord> allHistory() {
-        return engineService.getAllHistory();
+    public ResponseEntity<List<TierHistoryRecord>> getAllHistory() {
+        return ResponseEntity.ok(
+                tierUpgradeEngineService.getAllHistory()
+        );
     }
 }
