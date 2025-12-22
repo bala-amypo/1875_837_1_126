@@ -1,39 +1,48 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.model.VisitRecord;
+import com.example.demo.service.VisitRecordService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.VisitRecord;
-import com.example.demo.service.VisitRecordService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/visits")
 public class VisitRecordController {
 
-    private final VisitRecordService visitService;
+    private final VisitRecordService visitRecordService;
 
-    public VisitRecordController(VisitRecordService visitService) {
-        this.visitService = visitService;
+    // Constructor injection
+    public VisitRecordController(VisitRecordService visitRecordService) {
+        this.visitRecordService = visitRecordService;
     }
 
+    //  POST
     @PostMapping
-    public VisitRecord create(@RequestBody VisitRecord visit) {
-        return visitService.recordVisit(visit);
+    public ResponseEntity<VisitRecord> recordVisit(@RequestBody VisitRecord visit) {
+        VisitRecord savedVisit = visitRecordService.recordVisit(visit);
+        return ResponseEntity.ok(savedVisit);
     }
 
+    //  GET 
     @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
-        return visitService.getVisitsByCustomer(customerId);
+    public ResponseEntity<List<VisitRecord>> getVisitsByCustomer(@PathVariable Long customerId) {
+        List<VisitRecord> visits = visitRecordService.getVisitsByCustomer(customerId);
+        return ResponseEntity.ok(visits);
     }
 
+    //  GET /api/visits/{id}
     @GetMapping("/{id}")
-    public VisitRecord getById(@PathVariable Long id) {
-        return visitService.getVisitById(id);
+    public ResponseEntity<VisitRecord> getVisitById(@PathVariable Long id) {
+        VisitRecord visit = visitRecordService.getVisitById(id);
+        return ResponseEntity.ok(visit);
     }
 
+    // GET /api/visits
     @GetMapping
-    public List<VisitRecord> getAll() {
-        return visitService.getAllVisits();
+    public ResponseEntity<List<VisitRecord>> getAllVisits() {
+        List<VisitRecord> visits = visitRecordService.getAllVisits();
+        return ResponseEntity.ok(visits);
     }
 }
