@@ -1,20 +1,13 @@
 package com.example.demo.service;
-
+import com.example.demo.entity.*;
 import java.util.List;
 
-import com.example.demo.entity.CustomerProfile;
-
 public interface CustomerProfileService {
-
     CustomerProfile createCustomer(CustomerProfile customer);
-
     CustomerProfile getCustomerById(Long id);
-
-    CustomerProfile findByEmail(String email);
-
+    CustomerProfile findByCustomerId(String customerId);
     List<CustomerProfile> getAllCustomers();
-
     CustomerProfile updateTier(Long id, String newTier);
-
-    CustomerProfile updateStatus(Long id, boolean active);
 }
+
+// ... other interfaces similar pattern
