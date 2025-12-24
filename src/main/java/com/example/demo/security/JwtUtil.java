@@ -1,7 +1,6 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +19,7 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationMillis;
 
+    // Build JWT with claims required on Page 17 (customerId, email, role)
     public String generateToken(Long customerId, String email, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("customerId", customerId);
@@ -36,22 +36,14 @@ public class JwtUtil {
     }
 
     public Claims validateToken(String token) {
-        try {
-            return Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (Exception e) {
-            throw new JwtException("Token invalid or expired");
-        }
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String extractEmail(String token) {
         return validateToken(token).getSubject();
-    }
-
-    public Long extractCustomerId(String token) {
-        return validateToken(token).get("customerId", Long.class);
     }
 
     public String extractRole(String token) {
