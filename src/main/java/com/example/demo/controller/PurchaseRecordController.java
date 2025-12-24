@@ -1,47 +1,40 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.entity.CustomerProfile;
 import com.example.demo.entity.PurchaseRecord;
 import com.example.demo.service.PurchaseRecordService;
-import com.example.demo.service.CustomerProfileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchases")
+@Tag(name = "Purchase Records")
 public class PurchaseRecordController {
+    private final PurchaseRecordService purchaseRecordService;
 
-    private final PurchaseRecordService purchaseService;
-    private final CustomerProfileService customerService;
-
-    public PurchaseRecordController(PurchaseRecordService purchaseService, CustomerProfileService customerService) {
-        this.purchaseService = purchaseService;
-        this.customerService = customerService;
+    public PurchaseRecordController(PurchaseRecordService purchaseRecordService) {
+        this.purchaseRecordService = purchaseRecordService;
     }
 
     @PostMapping
-    public ResponseEntity<PurchaseRecord> recordPurchase(@RequestBody PurchaseRecord purchase) {
-        CustomerProfile customer = customerService.getCustomerById(purchase.getCustomer().getId());
-        purchase.setCustomer(customer);
-        return ResponseEntity.ok(purchaseService.recordPurchase(purchase));
+    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
+        // The entity uses 'Long customerId', so we pass the object directly.
+        // Validation for positive amount is handled in service.
+        return purchaseRecordService.recordPurchase(purchase);
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<PurchaseRecord>> getPurchasesByCustomer(@PathVariable Long customerId) {
-        CustomerProfile customer = customerService.getCustomerById(customerId);
-        return ResponseEntity.ok(purchaseService.getPurchasesByCustomer(customer));
+    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
+        return purchaseRecordService.getPurchasesByCustomer(customerId);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PurchaseRecord> getPurchaseById(@PathVariable Long id) {
-        return ResponseEntity.ok(purchaseService.getPurchaseById(id));
+    public PurchaseRecord getPurchaseById(@PathVariable Long id) {
+        return purchaseRecordService.getPurchaseById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<PurchaseRecord>> getAllPurchases() {
-        return ResponseEntity.ok(purchaseService.getAllPurchases());
+    public List<PurchaseRecord> getAllPurchases() {
+        return purchaseRecordService.getAllPurchases();
     }
 }
