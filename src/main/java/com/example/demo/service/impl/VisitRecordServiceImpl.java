@@ -37,7 +37,6 @@ public class VisitRecordServiceImpl implements VisitRecordService {
 
     @Override
     public VisitRecord getVisitById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
+        return repository.findById(id).orElseThrow(() -> new NoSuchElementException("Visit record not found"));
     }
 }

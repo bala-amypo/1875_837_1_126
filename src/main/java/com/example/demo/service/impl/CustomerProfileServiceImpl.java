@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 public class CustomerProfileServiceImpl implements CustomerProfileService {
     private final CustomerProfileRepository repository;
 
-    // Constructor Injection
     public CustomerProfileServiceImpl(CustomerProfileRepository repository) {
         this.repository = repository;
     }
@@ -27,14 +26,12 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfile getCustomerById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        return repository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override
     public CustomerProfile findByCustomerId(String customerId) {
-        return repository.findByCustomerId(customerId)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        return repository.findByCustomerId(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override

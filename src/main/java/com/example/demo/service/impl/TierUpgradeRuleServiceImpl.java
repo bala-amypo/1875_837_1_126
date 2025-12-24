@@ -25,8 +25,7 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
     @Override
     public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
-        TierUpgradeRule existing = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
+        TierUpgradeRule existing = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Rule not found"));
         existing.setFromTier(updatedRule.getFromTier());
         existing.setToTier(updatedRule.getToTier());
         existing.setMinSpend(updatedRule.getMinSpend());
@@ -42,8 +41,7 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
     @Override
     public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return repository.findByFromTierAndToTier(fromTier, toTier)
-                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
+        return repository.findByFromTierAndToTier(fromTier, toTier).orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
 
     @Override
