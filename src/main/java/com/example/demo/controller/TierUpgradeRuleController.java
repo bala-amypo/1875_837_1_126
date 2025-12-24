@@ -1,43 +1,40 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.service.TierUpgradeRuleService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tier-rules")
-@Tag(name = "Tier Upgrade Rules")
 public class TierUpgradeRuleController {
-    private final TierUpgradeRuleService service;
 
-    public TierUpgradeRuleController(TierUpgradeRuleService service) {
-        this.service = service;
+    private final TierUpgradeRuleService ruleService;
+
+    public TierUpgradeRuleController(TierUpgradeRuleService ruleService) {
+        this.ruleService = ruleService;
     }
 
     @PostMapping
-    public TierUpgradeRule create(@RequestBody TierUpgradeRule rule) {
-        return service.createRule(rule);
+    public ResponseEntity<TierUpgradeRule> createRule(@RequestBody TierUpgradeRule rule) {
+        return ResponseEntity.ok(ruleService.createRule(rule));
     }
 
     @PutMapping("/{id}")
-    public TierUpgradeRule update(@PathVariable Long id, @RequestBody TierUpgradeRule rule) {
-        return service.updateRule(id, rule);
-    }
-
-    @GetMapping("/active")
-    public List<TierUpgradeRule> getActive() {
-        return service.getActiveRules();
+    public ResponseEntity<TierUpgradeRule> updateRule(@PathVariable Long id, @RequestBody TierUpgradeRule rule) {
+        return ResponseEntity.ok(ruleService.updateRule(id, rule));
     }
 
     @GetMapping
-    public List<TierUpgradeRule> getAll() {
-        return service.getAllRules();
+    public ResponseEntity<List<TierUpgradeRule>> getAllRules() {
+        return ResponseEntity.ok(ruleService.getAllRules());
     }
 
     @GetMapping("/lookup")
-    public TierUpgradeRule lookup(@RequestParam String fromTier, @RequestParam String toTier) {
-        return service.getRule(fromTier, toTier);
+    public ResponseEntity<TierUpgradeRule> getRule(@RequestParam String fromTier) {
+        return ResponseEntity.ok(ruleService.getRuleByFromTier(fromTier));
     }
 }

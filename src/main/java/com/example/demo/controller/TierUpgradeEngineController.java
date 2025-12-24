@@ -1,29 +1,35 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.TierUpgradeEngineService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.entity.TierHistoryRecord;
+import com.example.demo.service.TierUpgradeEngineService;
 
 @RestController
 @RequestMapping("/api/tier-engine")
-@Tag(name = "Tier Upgrade Engine")
 public class TierUpgradeEngineController {
-    private final TierUpgradeEngineService service;
 
-    public TierUpgradeEngineController(TierUpgradeEngineService service) { this.service = service; }
+    private final TierUpgradeEngineService engineService;
+
+    public TierUpgradeEngineController(TierUpgradeEngineService engineService) {
+        this.engineService = engineService;
+    }
 
     @PostMapping("/evaluate/{customerId}")
-    @Operation(summary = "Run evaluation", description = "Evaluate and upgrade customer tier")
-    public Object evaluate(@PathVariable Long customerId) {
-        return service.evaluateAndUpgradeTier(customerId);
+    public ResponseEntity<TierHistoryRecord> evaluateTier(@PathVariable Long customerId) {
+        return ResponseEntity.ok(engineService.evaluateAndUpgradeTier(customerId));
     }
 
     @GetMapping("/history/{customerId}")
-    public Object getHistory(@PathVariable Long customerId) {
-        return service.getHistoryByCustomer(customerId);
+    public ResponseEntity<List<TierHistoryRecord>> getHistoryByCustomer(@PathVariable Long customerId) {
+        return ResponseEntity.ok(engineService.getHistoryByCustomer(customerId));
     }
 
     @GetMapping
-    public Object getAllHistory() { return service.getAllHistory(); }
+    public ResponseEntity<List<TierHistoryRecord>> getAllHistory() {
+        return ResponseEntity.ok(engineService.getAllHistory());
+    }
 }

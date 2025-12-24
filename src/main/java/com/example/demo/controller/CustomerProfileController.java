@@ -1,49 +1,45 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.entity.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
-@Tag(name = "Customer Profiles")
 public class CustomerProfileController {
-    private final CustomerProfileService service;
 
-    public CustomerProfileController(CustomerProfileService service) {
-        this.service = service;
+    private final CustomerProfileService customerService;
+
+    public CustomerProfileController(CustomerProfileService customerService) {
+        this.customerService = customerService;
     }
 
     @PostMapping
-    @Operation(summary = "Create customer")
-    public CustomerProfile create(@RequestBody CustomerProfile customer) {
-        return service.createCustomer(customer);
+    public ResponseEntity<CustomerProfile> createCustomer(@RequestBody CustomerProfile customer) {
+        return ResponseEntity.ok(customerService.createCustomer(customer));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get customer by ID")
-    public CustomerProfile getById(@PathVariable Long id) {
-        return service.getCustomerById(id);
+    public ResponseEntity<CustomerProfile> getCustomerById(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
     @GetMapping
-    @Operation(summary = "List all customers")
-    public List<CustomerProfile> getAll() {
-        return service.getAllCustomers();
+    public ResponseEntity<List<CustomerProfile>> getAllCustomers() {
+        return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
     @PutMapping("/{id}/tier")
-    @Operation(summary = "Update tier")
-    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String newTier) {
-        return service.updateTier(id, newTier);
+    public ResponseEntity<CustomerProfile> updateTier(@PathVariable Long id, @RequestParam String newTier) {
+        return ResponseEntity.ok(customerService.updateTier(id, newTier));
     }
 
-    @GetMapping("/lookup/{customerId}")
-    @Operation(summary = "Lookup by Customer ID String")
-    public CustomerProfile lookup(@PathVariable String customerId) {
-        return service.findByCustomerId(customerId);
+    @GetMapping("/lookup/{email}")
+    public ResponseEntity<CustomerProfile> findByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(customerService.findByEmail(email));
     }
 }
