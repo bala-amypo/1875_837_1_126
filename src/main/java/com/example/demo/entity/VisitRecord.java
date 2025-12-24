@@ -6,17 +6,23 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "visit_records")
 public class VisitRecord {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
+
+    private Long customerId; // Foreign key to CustomerProfile.id
     private LocalDate visitDate;
-    private String channel;
+    private String channel; // Valid values: STORE, APP, WEB
 
     public VisitRecord() {}
+
     public VisitRecord(Long customerId, LocalDate visitDate, String channel) {
-        this.customerId = customerId; this.visitDate = visitDate; this.channel = channel;
+        this.customerId = customerId;
+        this.visitDate = visitDate;
+        this.channel = channel;
     }
-    // Getters and Setters...
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }

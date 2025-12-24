@@ -3,10 +3,14 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tier_upgrade_rules")
+@Table(name = "tier_upgrade_rules", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"fromTier", "toTier"})
+})
 public class TierUpgradeRule {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String fromTier;
     private String toTier;
     private Double minSpend;
@@ -14,11 +18,16 @@ public class TierUpgradeRule {
     private Boolean active = true;
 
     public TierUpgradeRule() {}
+
     public TierUpgradeRule(String fromTier, String toTier, Double minSpend, Integer minVisits, Boolean active) {
-        this.fromTier = fromTier; this.toTier = toTier;
-        this.minSpend = minSpend; this.minVisits = minVisits; this.active = active;
+        this.fromTier = fromTier;
+        this.toTier = toTier;
+        this.minSpend = minSpend;
+        this.minVisits = minVisits;
+        this.active = active;
     }
-    // Getters and Setters...
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getFromTier() { return fromTier; }

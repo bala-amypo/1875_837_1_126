@@ -6,16 +6,28 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "customer_profiles")
 public class CustomerProfile {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true) private String customerId;
+
+    @Column(unique = true, nullable = false)
+    private String customerId;
+
     private String fullName;
-    @Column(unique = true) private String email;
-    @Column(unique = true) private String phone;
-    private String password; // Added for Auth
-    private String role;     // Added for Auth
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true, nullable = false)
+    private String phone;
+
+    private String password; // Required for Security/Auth
+    private String role;     // Required for Security/Auth
+
     private String currentTier = "BRONZE";
+
     private Boolean active = true;
+
     private LocalDateTime createdAt;
 
     @PrePersist
@@ -26,6 +38,7 @@ public class CustomerProfile {
     }
 
     public CustomerProfile() {}
+
     public CustomerProfile(String customerId, String fullName, String email, String phone, String currentTier, Boolean active, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.fullName = fullName;
@@ -35,7 +48,8 @@ public class CustomerProfile {
         this.active = active;
         this.createdAt = createdAt;
     }
-    // Getters and Setters...
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getCustomerId() { return customerId; }

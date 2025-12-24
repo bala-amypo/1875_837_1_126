@@ -6,8 +6,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tier_history_records")
 public class TierHistoryRecord {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long customerId;
     private String oldTier;
     private String newTier;
@@ -15,14 +17,21 @@ public class TierHistoryRecord {
     private LocalDateTime changedAt;
 
     @PrePersist
-    protected void onCreate() { this.changedAt = LocalDateTime.now(); }
+    protected void onCreate() {
+        this.changedAt = LocalDateTime.now();
+    }
 
     public TierHistoryRecord() {}
+
     public TierHistoryRecord(Long customerId, String oldTier, String newTier, String reason, LocalDateTime changedAt) {
-        this.customerId = customerId; this.oldTier = oldTier; this.newTier = newTier;
-        this.reason = reason; this.changedAt = changedAt;
+        this.customerId = customerId;
+        this.oldTier = oldTier;
+        this.newTier = newTier;
+        this.reason = reason;
+        this.changedAt = changedAt;
     }
-    // Getters and Setters...
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }
