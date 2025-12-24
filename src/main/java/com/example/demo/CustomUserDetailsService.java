@@ -1,4 +1,3 @@
-cat <<'EOF' > src/main/java/com/example/demo/CustomUserDetailsService.java
 package com.example.demo;
 
 import org.springframework.security.core.userdetails.*;
@@ -22,4 +21,3 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(cp.getEmail(), "$2a$10$DUMMYHASH", Collections.emptyList());
     }
 }
-EOF
