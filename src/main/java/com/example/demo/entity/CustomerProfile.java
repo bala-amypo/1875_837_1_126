@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer_profile")
@@ -13,9 +14,14 @@ public class CustomerProfile {
     private String email;
     private String password;
     private String role;
+
+    private String currentTier;
+
+    private LocalDateTime createdAt;
+
     private boolean active;
 
-    // ===== REQUIRED GETTERS =====
+    // ===== GETTERS =====
 
     public Long getId() {
         return id;
@@ -33,11 +39,32 @@ public class CustomerProfile {
         return role;
     }
 
+    public String getCurrentTier() {
+        return currentTier;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public boolean isActive() {
         return active;
     }
 
-    // ===== REQUIRED SETTER =====
+    // ===== SETTERS =====
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCurrentTier(String currentTier) {
+        this.currentTier = currentTier;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }
