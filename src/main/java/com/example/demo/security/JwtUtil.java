@@ -1,52 +1,35 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
+import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtUtil {
+    private final Key key;
+    private final long expirationMillis;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    public JwtUtil(@Value("${jwt.secret}") String secret, 
+                   @Value("${jwt.expiration}") long expirationMillis) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expirationMillis = expirationMillis;
+    }
 
-    @Value("${jwt.expiration}")
-    private long expirationMillis;
-
-    // Build JWT with claims required on Page 17 (customerId, email, role)
     public String generateToken(Long customerId, String email, String role) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("customerId", customerId);
-        claims.put("email", email);
-        claims.put("role", role);
-
         return Jwts.builder()
-                .setClaims(claims)
                 .setSubject(email)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .claim("customerId", customerId.toString()) // As per helper doc
+                .claim("role", role)
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Claims validateToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public String extractEmail(String token) {
-        return validateToken(token).getSubject();
-    }
-
-    public String extractRole(String token) {
-        return validateToken(token).get("role", String.class);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 }
