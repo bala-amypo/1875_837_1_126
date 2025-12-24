@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.CustomerProfile;
 import com.example.demo.entity.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
