@@ -7,10 +7,8 @@ public class RegisterRequest {
     private String phone;
     private String role; // ADMIN, CRM_MANAGER, RETAIL_OPERATOR
 
-    // Default Constructor
     public RegisterRequest() {}
 
-    // Getters and Setters
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     public String getPassword() { return password; }
