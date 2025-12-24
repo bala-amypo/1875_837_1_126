@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.CustomerProfile;
 import com.example.demo.entity.PurchaseRecord;
 import com.example.demo.entity.TierHistoryRecord;
 import com.example.demo.entity.TierUpgradeRule;
