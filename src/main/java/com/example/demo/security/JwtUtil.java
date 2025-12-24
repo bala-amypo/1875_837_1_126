@@ -21,7 +21,7 @@ public class JwtUtil {
     public String generateToken(Long customerId, String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
-                .claim("customerId", customerId.toString()) // As per helper doc
+                .claim("customerId", customerId.toString())
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
@@ -31,5 +31,17 @@ public class JwtUtil {
 
     public Claims validateToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    public String extractEmail(String token) {
+        return validateToken(token).getSubject();
+    }
+
+    public String extractCustomerId(String token) {
+        return validateToken(token).get("customerId", String.class);
+    }
+
+    public String extractRole(String token) {
+        return validateToken(token).get("role", String.class);
     }
 }
