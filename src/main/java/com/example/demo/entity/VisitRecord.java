@@ -1,71 +1,33 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "visit_records")
 public class VisitRecord {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(optional = false)
-    private CustomerProfile customer;
-
-    @Column(nullable = false)
+    private Long customerId;
+    private LocalDate visitDate;
     private String channel;
 
-    @Column(nullable = false)
-    private LocalDateTime visitTime;
+    public VisitRecord() {}
 
-    public VisitRecord() {
-    }
-
-    public VisitRecord(CustomerProfile customer, String channel) {
-        this.customer = customer;
-        this.channel = channel;
-        this.visitTime = LocalDateTime.now();
-    }
-
-    @PrePersist
-    public void onCreate() {
-        if (visitTime == null) {
-            visitTime = LocalDateTime.now();
-        }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public CustomerProfile getCustomer() {
-        return customer;
-    }
-
-    public String getChannel() {
-        return channel;
-    }
-
-    public LocalDateTime getVisitTime() {
-        return visitTime;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setCustomer(CustomerProfile customer) {
-        this.customer = customer;
-    }
-
-    public void setChannel(String channel) {
+    public VisitRecord(Long customerId, LocalDate visitDate, String channel) {
+        this.customerId = customerId;
+        this.visitDate = visitDate;
         this.channel = channel;
     }
 
-    public void setVisitTime(LocalDateTime visitTime) {
-        this.visitTime = visitTime;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public LocalDate getVisitDate() { return visitDate; }
+    public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
+    public String getChannel() { return channel; }
+    public void setChannel(String channel) { this.channel = channel; }
 }
