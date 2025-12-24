@@ -21,7 +21,12 @@ public class PurchaseRecord {
         this.purchaseDate = purchaseDate;
         this.storeLocation = storeLocation;
     }
-    // Getters/Setters
+    
+    // Test Case Helper: The test tries to set the object, we map it to the ID
+    public void setCustomer(CustomerProfile c) {
+        if (c != null) this.customerId = c.getId();
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }

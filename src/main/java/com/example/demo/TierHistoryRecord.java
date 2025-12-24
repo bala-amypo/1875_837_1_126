@@ -1,13 +1,10 @@
 package com.example.demo;
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "tier_history_records")
+@Entity @Table(name = "tier_history_records")
 public class TierHistoryRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long customerId;
     private String oldTier;
@@ -23,9 +20,7 @@ public class TierHistoryRecord {
         this.reason = reason;
         this.changedAt = changedAt;
     }
-    @PrePersist
-    protected void onCreate() { this.changedAt = LocalDateTime.now(); }
-    // Getters/Setters
+    @PrePersist protected void onCreate() { this.changedAt = LocalDateTime.now(); }
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }

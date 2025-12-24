@@ -19,7 +19,12 @@ public class VisitRecord {
         this.visitDate = visitDate;
         this.channel = channel;
     }
-    // Getters/Setters
+    
+    // Test Case Helper
+    public void setCustomer(CustomerProfile c) {
+        if (c != null) this.customerId = c.getId();
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }

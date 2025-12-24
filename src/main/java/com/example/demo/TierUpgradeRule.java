@@ -1,12 +1,9 @@
 package com.example.demo;
-
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "tier_upgrade_rules")
+@Entity @Table(name = "tier_upgrade_rules")
 public class TierUpgradeRule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fromTier;
     private String toTier;
@@ -22,7 +19,6 @@ public class TierUpgradeRule {
         this.minVisits = minVisits;
         this.active = active;
     }
-    // Getters/Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getFromTier() { return fromTier; }

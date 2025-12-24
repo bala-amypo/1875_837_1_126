@@ -30,12 +30,15 @@ public class CustomerProfile {
         this.active = active;
         this.createdAt = createdAt;
     }
-    @PrePersist
-    protected void onCreate() {
+    @PrePersist protected void onCreate() {
         if (this.currentTier == null) this.currentTier = "BRONZE";
         if (this.active == null) this.active = true;
         this.createdAt = LocalDateTime.now();
     }
+    
+    // Test Case Helper Method
+    public boolean isActive() { return this.active != null && this.active; }
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
