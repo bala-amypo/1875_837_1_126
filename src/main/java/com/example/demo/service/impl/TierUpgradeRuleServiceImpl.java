@@ -15,13 +15,15 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
         this.repository = repository;
     }
 
+    @Override
     public TierUpgradeRule createRule(TierUpgradeRule rule) {
         if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) {
-            throw new IllegalArgumentException("Invalid rule values"); // General validation
+            throw new IllegalArgumentException("Invalid rule values");
         }
         return repository.save(rule);
     }
 
+    @Override
     public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
         TierUpgradeRule rule = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
@@ -33,14 +35,19 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
         return repository.save(rule);
     }
 
+    @Override
     public List<TierUpgradeRule> getActiveRules() {
         return repository.findByActiveTrue();
     }
 
+    @Override
     public TierUpgradeRule getRule(String fromTier, String toTier) {
         return repository.findByFromTierAndToTier(fromTier, toTier)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
-    
-    public List<TierUpgradeRule> getAllRules() { return repository.findAll(); }
+
+    @Override
+    public List<TierUpgradeRule> getAllRules() {
+        return repository.findAll();
+    }
 }

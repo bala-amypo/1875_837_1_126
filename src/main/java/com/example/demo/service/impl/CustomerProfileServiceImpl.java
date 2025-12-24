@@ -35,6 +35,11 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
+    public CustomerProfile findByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    }
+
+    @Override
     public List<CustomerProfile> getAllCustomers() {
         return repository.findAll();
     }
@@ -43,6 +48,13 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     public CustomerProfile updateTier(Long id, String newTier) {
         CustomerProfile customer = getCustomerById(id);
         customer.setCurrentTier(newTier);
+        return repository.save(customer);
+    }
+    
+    @Override
+    public CustomerProfile updateStatus(Long id, boolean active) {
+        CustomerProfile customer = getCustomerById(id);
+        customer.setActive(active);
         return repository.save(customer);
     }
 }
