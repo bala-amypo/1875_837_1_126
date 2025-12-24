@@ -1,26 +1,43 @@
 package com.example.demo.exception;
 
+import com.example.demo.dto.ApiResponse;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(
-            IllegalArgumentException ex) {
+    // Handles JWT Token specific errors (Page 17)
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ApiResponse> handleJwtException(JwtException ex) {
+        ApiResponse response = new ApiResponse(false, "Invalid or expired token", null);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST.value());
-        body.put("error", ex.getMessage());
+    // Handles Spring Security Authentication failures
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse> handleAuthException(AuthenticationException ex) {
+        ApiResponse response = new ApiResponse(false, "Authentication failed", null);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
 
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    // Handles Role-based access denials
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse> handleAccessDenied(AccessDeniedException ex) {
+        ApiResponse response = new ApiResponse(false, "You do not have permission to access this resource", null);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    // Fallback for any other custom runtime exceptions
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse> handleRuntimeException(RuntimeException ex) {
+        ApiResponse response = new ApiResponse(false, ex.getMessage(), null);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
