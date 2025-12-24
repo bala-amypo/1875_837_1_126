@@ -11,20 +11,37 @@ public class CustomerProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // ===== TEST EXPECTED FIELDS =====
+    private String customerId;
+    private String fullName;
+    private String phone;
+
+    // ===== AUTH & ROLE =====
     private String email;
     private String password;
     private String role;
 
+    // ===== LOYALTY =====
     private String currentTier;
+    private boolean active;
 
     private LocalDateTime createdAt;
 
-    private boolean active;
-
     // ===== GETTERS =====
-
     public Long getId() {
         return id;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public String getEmail() {
@@ -43,15 +60,26 @@ public class CustomerProfile {
         return currentTier;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     public boolean isActive() {
         return active;
     }
 
-    // ===== SETTERS =====
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    // ===== SETTERS (TESTS REQUIRE THESE EXACT NAMES) =====
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -61,11 +89,11 @@ public class CustomerProfile {
         this.currentTier = currentTier;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
