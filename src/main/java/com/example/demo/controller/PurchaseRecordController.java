@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.CustomerProfile;
+import com.example.demo.entity.CustomerProfile;
 import com.example.demo.entity.PurchaseRecord;
 import com.example.demo.service.PurchaseRecordService;
 import com.example.demo.service.CustomerProfileService;
