@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

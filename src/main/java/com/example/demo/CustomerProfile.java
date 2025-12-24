@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "customer_profile")
 public class CustomerProfile {
 
     @Id
@@ -14,51 +13,77 @@ public class CustomerProfile {
     private String customerId;
     private String fullName;
     private String phone;
-
-    private String email;
     private String password;
     private String role;
-
     private String currentTier;
     private boolean active;
 
     private LocalDateTime createdAt;
 
-    // ===== GETTERS =====
-    public Long getId() { return id; }
-    public String getCustomerId() { return customerId; }
-    public String getFullName() { return fullName; }
-    public String getPhone() { return phone; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getRole() { return role; }
-    public String getCurrentTier() { return currentTier; }
-    public boolean isActive() { return active; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    // ===== GETTERS & SETTERS =====
 
-    // ===== SETTERS (TEST EXPECTS THESE EXACTLY) =====
+    public Long getId() {
+        return id;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getCurrentTier() {
+        return currentTier;
+    }
+
     public void setCurrentTier(String currentTier) {
         this.currentTier = currentTier;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
