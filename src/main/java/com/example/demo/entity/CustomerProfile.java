@@ -1,73 +1,79 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "customer_profiles")
 public class CustomerProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String customerId;
+    @NotBlank
+    @Column(nullable = false)
+    private String name;
 
-    private String fullName;
-
-    @Column(unique = true, nullable = false)
+    @Email
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(unique = true, nullable = false)
-    private String phone;
+    @NotBlank
+    @Column(nullable = false)
+    private String tier;
 
-    private String password; // Required for Security/Auth
-    private String role;     // Required for Security/Auth
+    @Column(nullable = false)
+    private boolean active = true;
 
-    private String currentTier = "BRONZE";
-
-    private Boolean active = true;
-
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        if (this.currentTier == null) this.currentTier = "BRONZE";
-        if (this.active == null) this.active = true;
+    public CustomerProfile() {
     }
 
-    public CustomerProfile() {}
-
-    public CustomerProfile(String customerId, String fullName, String email, String phone, String currentTier, Boolean active, LocalDateTime createdAt) {
-        this.customerId = customerId;
-        this.fullName = fullName;
+    public CustomerProfile(String name, String email, String tier) {
+        this.name = name;
         this.email = email;
-        this.phone = phone;
-        this.currentTier = currentTier;
-        this.active = active;
-        this.createdAt = createdAt;
+        this.tier = tier;
+        this.active = true;
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getCustomerId() { return customerId; }
-    public void setCustomerId(String customerId) { this.customerId = customerId; }
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
-    public String getCurrentTier() { return currentTier; }
-    public void setCurrentTier(String currentTier) { this.currentTier = currentTier; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTier() {
+        return tier;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTier(String tier) {
+        this.tier = tier;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

@@ -1,38 +1,73 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import jakarta.validation.constraints.Positive;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "purchase_records")
 public class PurchaseRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long customerId; // Foreign key to CustomerProfile.id
-    private Double amount;
-    private LocalDate purchaseDate;
-    private String storeLocation;
+    @Positive
+    @Column(nullable = false)
+    private double amount;
 
-    public PurchaseRecord() {}
+    @ManyToOne(optional = false)
+    private CustomerProfile customer;
 
-    public PurchaseRecord(Long customerId, Double amount, LocalDate purchaseDate, String storeLocation) {
-        this.customerId = customerId;
-        this.amount = amount;
-        this.purchaseDate = purchaseDate;
-        this.storeLocation = storeLocation;
+    @Column(nullable = false)
+    private LocalDateTime purchaseTime;
+
+    public PurchaseRecord() {
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) { this.amount = amount; }
-    public LocalDate getPurchaseDate() { return purchaseDate; }
-    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
-    public String getStoreLocation() { return storeLocation; }
-    public void setStoreLocation(String storeLocation) { this.storeLocation = storeLocation; }
+    public PurchaseRecord(double amount, CustomerProfile customer) {
+        this.amount = amount;
+        this.customer = customer;
+        this.purchaseTime = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void onCreate() {
+        if (purchaseTime == null) {
+            purchaseTime = LocalDateTime.now();
+        }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public CustomerProfile getCustomer() {
+        return customer;
+    }
+
+    public LocalDateTime getPurchaseTime() {
+        return purchaseTime;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setCustomer(CustomerProfile customer) {
+        this.customer = customer;
+    }
+
+    public void setPurchaseTime(LocalDateTime purchaseTime) {
+        this.purchaseTime = purchaseTime;
+    }
 }
