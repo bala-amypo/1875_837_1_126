@@ -1,7 +1,6 @@
 package com.example.demo;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.NoSuchElementException;
 
 @Service
@@ -15,18 +14,24 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         }
         return repository.save(customer);
     }
-    public Optional<CustomerProfile> getCustomerById(Long id) { return repository.findById(id); }
-    public Optional<CustomerProfile> findByCustomerId(String customerId) { return repository.findByCustomerId(customerId); }
+    public CustomerProfile getCustomerById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    }
+    public CustomerProfile findByCustomerId(String customerId) {
+        return repository.findByCustomerId(customerId).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    }
     public List<CustomerProfile> getAllCustomers() { return repository.findAll(); }
     public CustomerProfile updateTier(Long id, String newTier) {
-        CustomerProfile cp = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        CustomerProfile cp = getCustomerById(id);
         cp.setCurrentTier(newTier);
         return repository.save(cp);
     }
     public CustomerProfile updateStatus(Long id, boolean active) {
-        CustomerProfile cp = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        CustomerProfile cp = getCustomerById(id);
         cp.setActive(active);
         return repository.save(cp);
     }
-    public Optional<CustomerProfile> findByEmail(String email) { return repository.findByEmail(email); }
+    public CustomerProfile findByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    }
 }
