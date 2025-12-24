@@ -1,7 +1,6 @@
 package com.example.demo.config;
 
 import com.example.demo.security.JwtUtil;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,9 +29,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             try {
-                Claims claims = jwtUtil.validateToken(token);
-                String email = claims.getSubject();
-                String role = claims.get("role", String.class);
+                // Validate token and extract claims
+                // Note: The helper doc says "validateToken" returns parsed object, 
+                // but checking validity via try/catch is standard if using Jwts.parser().
+                // We use the helper methods we added to JwtUtil to get the data.
+                
+                String email = jwtUtil.extractEmail(token);
+                String role = jwtUtil.extractRole(token);
                 
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -40,7 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             } catch (Exception e) {
-                // Invalid token
+                // If token is invalid or expired, do not set authentication context.
+                // Request proceeds unauthenticated (and will be rejected by SecurityConfig if endpoint is protected).
             }
         }
         chain.doFilter(request, response);
