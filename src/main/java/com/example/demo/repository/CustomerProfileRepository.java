@@ -1,13 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.CustomerProfile;
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
-    // Required method: Find by the unique String customerId
-    Optional<CustomerProfile> findByCustomerId(String customerId);
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    // Required method: Find by the unique email address
+import com.example.demo.entity.CustomerProfile;
+
+public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
+
     Optional<CustomerProfile> findByEmail(String email);
 }
