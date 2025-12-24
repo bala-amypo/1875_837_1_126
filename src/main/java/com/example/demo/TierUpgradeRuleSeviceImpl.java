@@ -1,0 +1,28 @@
+package com.example.demo;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+import java.util.NoSuchElementException;
+
+@Service
+public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
+    private final TierUpgradeRuleRepository repository;
+    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repository) { this.repository = repository; }
+
+    public TierUpgradeRule createRule(TierUpgradeRule rule) {
+        if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) throw new IllegalArgumentException("Invalid rule values");
+        return repository.save(rule);
+    }
+    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
+        TierUpgradeRule rule = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Rule not found"));
+        rule.setFromTier(updatedRule.getFromTier());
+        rule.setToTier(updatedRule.getToTier());
+        rule.setMinSpend(updatedRule.getMinSpend());
+        rule.setMinVisits(updatedRule.getMinVisits());
+        rule.setActive(updatedRule.getActive());
+        return repository.save(rule);
+    }
+    public List<TierUpgradeRule> getActiveRules() { return repository.findByActiveTrue(); }
+    public Optional<TierUpgradeRule> getRule(String fromTier, String toTier) { return repository.findByFromTierAndToTier(fromTier, toTier); }
+    public List<TierUpgradeRule> getAllRules() { return repository.findAll(); }
+}
