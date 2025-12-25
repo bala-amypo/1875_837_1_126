@@ -1,29 +1,23 @@
-package com.example.demo.model;
+package com.example.demo.entity;
+
 import jakarta.persistence.*;
 
-@Entity @Table(name = "tier_upgrade_rules")
+@Entity
+@Table(name = "tier_upgrade_rules")
 public class TierUpgradeRule {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String fromTier;
     private String toTier;
     private Double minSpend;
     private Integer minVisits;
-    private Boolean active = true;
+    private Boolean active;
 
     public TierUpgradeRule() {}
-    public TierUpgradeRule(String fromTier, String toTier, Double minSpend, Integer minVisits, Boolean active) {
-        this.fromTier = fromTier;
-        this.toTier = toTier;
-        this.minSpend = minSpend;
-        this.minVisits = minVisits;
-        this.active = active;
-    }
 
-    // --- TEST HACKS ---
-    public boolean isPresent() { return true; }
-    public TierUpgradeRule get() { return this; }
-    // ------------------
-
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getFromTier() { return fromTier; }
@@ -34,6 +28,6 @@ public class TierUpgradeRule {
     public void setMinSpend(Double minSpend) { this.minSpend = minSpend; }
     public Integer getMinVisits() { return minVisits; }
     public void setMinVisits(Integer minVisits) { this.minVisits = minVisits; }
-    public Boolean getActive() { return active; }
+    public Boolean isActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
 }
