@@ -18,11 +18,11 @@ public class PurchaseRecord {
         this.storeLocation = storeLocation;
     }
     
-    // --- TEST COMPATIBILITY METHODS ---
+    // --- TEST HACKS ---
     public void setCustomer(CustomerProfile c) { if (c != null) this.customerId = c.getId(); }
     public boolean isPresent() { return true; }
     public PurchaseRecord get() { return this; }
-    // ----------------------------------
+    // ------------------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

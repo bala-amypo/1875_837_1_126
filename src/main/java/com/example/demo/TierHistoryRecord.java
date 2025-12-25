@@ -21,7 +21,7 @@ public class TierHistoryRecord {
     }
     @PrePersist protected void onCreate() { this.changedAt = LocalDateTime.now(); }
     
-    // Test helper just in case
+    // Hack
     public boolean isPresent() { return true; }
 
     public Long getId() { return id; }

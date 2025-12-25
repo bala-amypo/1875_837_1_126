@@ -31,7 +31,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         cp.setActive(active);
         return repository.save(cp);
     }
-    // Helper used by AuthController only
     public CustomerProfile findByEmailInternal(String email) {
         return repository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found"));
     }

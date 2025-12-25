@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController @RequestMapping("/auth") @Tag(name="Authentication")
 public class AuthController {
-    private final CustomerProfileServiceImpl service; // Use impl to access internal method
+    private final CustomerProfileServiceImpl service;
     private final JwtUtil jwtUtil;
     public AuthController(CustomerProfileServiceImpl service, JwtUtil jwtUtil) { this.service = service; this.jwtUtil = jwtUtil; }
     
@@ -14,7 +14,6 @@ public class AuthController {
     }
     
     @PostMapping("/login") public ApiResponse login(@RequestBody LoginRequest req) {
-        // Use the internal helper that mimics findByEmail
         CustomerProfile cp = service.findByEmailInternal(req.email);
         String token = jwtUtil.generateToken(cp.getId(), cp.getEmail(), "ROLE_ADMIN");
         return new ApiResponse(true, "Login success", token);
