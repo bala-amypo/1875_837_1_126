@@ -1,20 +1,14 @@
 package com.example.demo;
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "customer_profiles")
+@Entity @Table(name = "customer_profiles")
 public class CustomerProfile {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true)
-    private String customerId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Column(unique = true) private String customerId;
     private String fullName;
-    @Column(unique = true)
-    private String email;
-    @Column(unique = true)
-    private String phone;
+    @Column(unique = true) private String email;
+    @Column(unique = true) private String phone;
     private String currentTier;
     private Boolean active = true;
     private LocalDateTime createdAt;
@@ -38,7 +32,6 @@ public class CustomerProfile {
     // REQUIRED BY TEST SUITE
     public boolean isActive() { return this.active != null && this.active; }
 
-    // Getters/Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getCustomerId() { return customerId; }

@@ -15,11 +15,8 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         }
         return repository.save(customer);
     }
-    // Returning Optional is REQUIRED by Test Suite
     public Optional<CustomerProfile> getCustomerById(Long id) { return repository.findById(id); }
     public Optional<CustomerProfile> findByCustomerId(String customerId) { return repository.findByCustomerId(customerId); }
-    public Optional<CustomerProfile> findByEmail(String email) { return repository.findByEmail(email); }
-    
     public List<CustomerProfile> getAllCustomers() { return repository.findAll(); }
     
     public CustomerProfile updateTier(Long id, String newTier) {
@@ -31,5 +28,10 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         CustomerProfile cp = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
         cp.setActive(active);
         return repository.save(cp);
+    }
+    
+    // Helper for AuthController (not in interface)
+    public Optional<CustomerProfile> findByEmailInternal(String email) {
+        return repository.findByEmail(email);
     }
 }
