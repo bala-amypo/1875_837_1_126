@@ -1,0 +1,2 @@
+package com.example.demo.dto;
+public class ApiResponse { public boolean success; public String message; public Object data; public ApiResponse(boolean s, String m, Object d){this.success=s;this.message=m;this.data=d;} }
