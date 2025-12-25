@@ -1,23 +1,43 @@
 package com.example.demo.service.impl;
-import com.example.demo.model.PurchaseRecord;
-import com.example.demo.repository.PurchaseRecordRepository;
-import com.example.demo.service.PurchaseRecordService;
+
+import com.example.demo.entity.VisitRecord;
+import com.example.demo.repository.VisitRecordRepository;
+import com.example.demo.service.VisitRecordService;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class PurchaseRecordServiceImpl implements PurchaseRecordService {
-    private final PurchaseRecordRepository repository;
-    public PurchaseRecordServiceImpl(PurchaseRecordRepository repository) { this.repository = repository; }
-    
-    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
-        if (purchase.getAmount() <= 0) throw new IllegalArgumentException("Amount must be positive");
-        return repository.save(purchase);
+public class VisitRecordServiceImpl implements VisitRecordService {
+
+    private final VisitRecordRepository repository;
+    private static final Set<String> VALID_CHANNELS = Set.of("STORE", "APP", "WEB");
+
+    public VisitRecordServiceImpl(VisitRecordRepository repository) {
+        this.repository = repository;
     }
-    public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) { return repository.findByCustomerId(customerId); }
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NoSuchElementException("Purchase record not found"));
+
+    @Override
+    public VisitRecord recordVisit(VisitRecord visit) {
+        if (visit.getChannel() == null || !VALID_CHANNELS.contains(visit.getChannel())) {
+            throw new IllegalArgumentException("Invalid channel");
+        }
+        return repository.save(visit);
     }
-    public List<PurchaseRecord> getAllPurchases() { return repository.findAll(); }
+
+    @Override
+    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
+        return repository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public List<VisitRecord> getAllVisits() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Optional<VisitRecord> getVisitById(Long id) {
+        return repository.findById(id);
+    }
 }
