@@ -23,7 +23,8 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
     public List<TierUpgradeRule> getActiveRules() { return repository.findByActiveTrue(); }
     public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return repository.findByFromTierAndToTier(fromTier, toTier).orElseThrow(() -> new NoSuchElementException("Rule not found"));
+        return repository.findByFromTierAndToTier(fromTier, toTier)
+                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
     public List<TierUpgradeRule> getAllRules() { return repository.findAll(); }
 }
