@@ -1,4 +1,3 @@
-cat <<EOF > src/main/java/com/example/demo/config/OpenApiConfig.java
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,10 +12,12 @@ import java.util.List;
 
 @Configuration
 public class OpenApiConfig {
+
     @Bean 
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("Customer Loyalty Tier Upgrader API").version("1.0"))
+                // Ensure this matches your specific environment URL
                 .servers(List.of(new Server().url("https://9202.408procr.amypo.ai/")))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", new SecurityScheme()
@@ -25,4 +26,3 @@ public class OpenApiConfig {
                         .bearerFormat("JWT")));
     }
 }
-EOF
