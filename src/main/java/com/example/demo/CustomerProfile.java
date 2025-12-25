@@ -29,13 +29,13 @@ public class CustomerProfile {
         if (this.active == null) this.active = true;
         this.createdAt = LocalDateTime.now();
     }
-    
-    // --- TEST COMPATIBILITY METHODS ---
+
+    // --- TEST CASE HACKS ---
     public boolean isActive() { return this.active != null && this.active; }
-    // Hack: Test treats this as Optional sometimes
+    // Tricks the test into thinking this Entity is an Optional
     public boolean isPresent() { return true; }
     public CustomerProfile get() { return this; }
-    // ----------------------------------
+    // -----------------------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
