@@ -1,6 +1,5 @@
 package com.example.demo.service;
-
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.model.CustomerProfile;
 import java.util.List;
 import java.util.Optional;
 
