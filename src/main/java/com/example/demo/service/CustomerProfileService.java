@@ -6,7 +6,7 @@ public interface CustomerProfileService {
     CustomerProfile createCustomer(CustomerProfile customer);
     CustomerProfile getCustomerById(Long id);
     CustomerProfile findByCustomerId(String customerId);
-    // findByEmail REMOVED to match FakeCustomerService in test
+    // REMOVED findByEmail to match Test
     List<CustomerProfile> getAllCustomers();
     CustomerProfile updateTier(Long id, String newTier);
     CustomerProfile updateStatus(Long id, boolean active);

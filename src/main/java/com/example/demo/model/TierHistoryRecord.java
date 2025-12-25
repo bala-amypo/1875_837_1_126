@@ -20,7 +20,9 @@ public class TierHistoryRecord {
         this.changedAt = changedAt;
     }
     @PrePersist protected void onCreate() { this.changedAt = LocalDateTime.now(); }
-    public boolean isPresent() { return true; } // Safety hack
+    
+    // Test Hack
+    public boolean isPresent() { return true; }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
