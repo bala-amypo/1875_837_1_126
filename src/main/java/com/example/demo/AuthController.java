@@ -1,5 +1,6 @@
 package com.example.demo;
 import org.springframework.web.bind.annotation.*;
+import java.util.NoSuchElementException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController @RequestMapping("/auth") @Tag(name="Authentication")
@@ -14,8 +15,8 @@ public class AuthController {
     }
     
     @PostMapping("/login") public ApiResponse login(@RequestBody LoginRequest req) {
-        // FIXED: Service returns Entity directly now
-        CustomerProfile cp = service.findByEmail(req.email);
+        // Unwrap Optional
+        CustomerProfile cp = service.findByEmail(req.email).orElseThrow(() -> new NoSuchElementException("User not found"));
         String token = jwtUtil.generateToken(cp.getId(), cp.getEmail(), "ROLE_ADMIN");
         return new ApiResponse(true, "Login success", token);
     }
