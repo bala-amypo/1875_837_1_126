@@ -1,13 +1,10 @@
 package com.example.demo;
-
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "purchase_records")
+@Entity @Table(name = "purchase_records")
 public class PurchaseRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long customerId;
     private Double amount;
@@ -22,7 +19,7 @@ public class PurchaseRecord {
         this.storeLocation = storeLocation;
     }
     
-    // Test Case Helper: The test tries to set the object, we map it to the ID
+    // REQUIRED BY TEST SUITE
     public void setCustomer(CustomerProfile c) {
         if (c != null) this.customerId = c.getId();
     }

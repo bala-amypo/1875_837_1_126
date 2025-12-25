@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "customer_profiles")
 public class CustomerProfile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String customerId;
@@ -36,10 +35,10 @@ public class CustomerProfile {
         this.createdAt = LocalDateTime.now();
     }
     
-    // Test Case Helper Method
+    // REQUIRED BY TEST SUITE
     public boolean isActive() { return this.active != null && this.active; }
 
-    // Getters and Setters
+    // Getters/Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getCustomerId() { return customerId; }

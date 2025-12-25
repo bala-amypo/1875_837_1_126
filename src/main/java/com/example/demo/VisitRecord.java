@@ -1,13 +1,10 @@
 package com.example.demo;
-
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "visit_records")
+@Entity @Table(name = "visit_records")
 public class VisitRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long customerId;
     private LocalDate visitDate;
@@ -20,7 +17,7 @@ public class VisitRecord {
         this.channel = channel;
     }
     
-    // Test Case Helper
+    // REQUIRED BY TEST SUITE
     public void setCustomer(CustomerProfile c) {
         if (c != null) this.customerId = c.getId();
     }
