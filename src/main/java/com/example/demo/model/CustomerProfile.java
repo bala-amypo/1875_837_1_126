@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -14,13 +14,10 @@ public class CustomerProfile {
     private String customerId;
 
     private String fullName;
-    
     @Column(unique = true)
     private String email;
-    
     @Column(unique = true)
     private String phone;
-    
     private String currentTier;
     private Boolean active;
     private LocalDateTime createdAt;
@@ -44,7 +41,6 @@ public class CustomerProfile {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getCustomerId() { return customerId; }
