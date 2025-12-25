@@ -1,7 +1,7 @@
 package com.example.demo;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PurchaseRecordServiceImpl implements PurchaseRecordService {
@@ -13,8 +13,6 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
         return repository.save(purchase);
     }
     public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) { return repository.findByCustomerId(customerId); }
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NoSuchElementException("Purchase record not found"));
-    }
+    public Optional<PurchaseRecord> getPurchaseById(Long id) { return repository.findById(id); }
     public List<PurchaseRecord> getAllPurchases() { return repository.findAll(); }
 }
