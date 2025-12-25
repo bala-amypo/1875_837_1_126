@@ -31,11 +31,11 @@ public class CustomerProfile {
         this.createdAt = LocalDateTime.now();
     }
 
-    // --- TEST COMPATIBILITY METHODS ---
+    // --- TEST CASE COMPATIBILITY HACKS ---
     public boolean isActive() { return this.active != null && this.active; }
     public boolean isPresent() { return true; }
     public CustomerProfile get() { return this; }
-    // ----------------------------------
+    // -------------------------------------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -17,7 +17,6 @@ public class PurchaseRecord {
         this.purchaseDate = purchaseDate;
         this.storeLocation = storeLocation;
     }
-    
     // Test Hack
     public void setCustomer(CustomerProfile c) { if(c!=null) this.customerId = c.getId(); }
     public boolean isPresent() { return true; }
