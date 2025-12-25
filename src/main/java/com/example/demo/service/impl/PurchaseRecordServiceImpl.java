@@ -1,43 +1,41 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.VisitRecord;
-import com.example.demo.repository.VisitRecordRepository;
-import com.example.demo.service.VisitRecordService;
+import com.example.demo.entity.PurchaseRecord;
+import com.example.demo.repository.PurchaseRecordRepository;
+import com.example.demo.service.PurchaseRecordService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
-public class VisitRecordServiceImpl implements VisitRecordService {
+public class PurchaseRecordServiceImpl implements PurchaseRecordService {
 
-    private final VisitRecordRepository repository;
-    private static final Set<String> VALID_CHANNELS = Set.of("STORE", "APP", "WEB");
+    private final PurchaseRecordRepository repository;
 
-    public VisitRecordServiceImpl(VisitRecordRepository repository) {
+    public PurchaseRecordServiceImpl(PurchaseRecordRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public VisitRecord recordVisit(VisitRecord visit) {
-        if (visit.getChannel() == null || !VALID_CHANNELS.contains(visit.getChannel())) {
-            throw new IllegalArgumentException("Invalid channel");
+    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
+        if (purchase.getAmount() == null || purchase.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
         }
-        return repository.save(visit);
+        return repository.save(purchase);
     }
 
     @Override
-    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
+    public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) {
         return repository.findByCustomerId(customerId);
     }
 
     @Override
-    public List<VisitRecord> getAllVisits() {
+    public List<PurchaseRecord> getAllPurchases() {
         return repository.findAll();
     }
 
     @Override
-    public Optional<VisitRecord> getVisitById(Long id) {
+    public Optional<PurchaseRecord> getPurchaseById(Long id) {
         return repository.findById(id);
     }
 }
