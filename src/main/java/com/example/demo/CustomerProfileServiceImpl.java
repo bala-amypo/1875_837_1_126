@@ -32,6 +32,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         return repository.save(cp);
     }
     public CustomerProfile findByEmail(String email) {
-        return repository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        return repository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 }
