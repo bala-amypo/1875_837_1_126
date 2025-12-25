@@ -1,17 +1,15 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.*;
+import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.TierUpgradeEngineService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
-
     private final CustomerProfileRepository customerRepo;
     private final PurchaseRecordRepository purchaseRepo;
     private final VisitRecordRepository visitRepo;
@@ -36,29 +34,23 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
         CustomerProfile customer = customerRepo.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
 
-        // 1. Calculate Aggregates
         List<PurchaseRecord> purchases = purchaseRepo.findByCustomerId(customerId);
         double totalSpend = purchases.stream().mapToDouble(PurchaseRecord::getAmount).sum();
 
         List<VisitRecord> visits = visitRepo.findByCustomerId(customerId);
         int totalVisits = visits.size();
 
-        // 2. Find matching rules for current tier
         List<TierUpgradeRule> rules = ruleRepo.findByActiveTrue();
         
         for (TierUpgradeRule rule : rules) {
             if (rule.getFromTier().equalsIgnoreCase(customer.getCurrentTier())) {
-                // 3. Check thresholds
                 if (totalSpend >= rule.getMinSpend() && totalVisits >= rule.getMinVisits()) {
-                    
-                    // 4. Perform Upgrade
                     String oldTier = customer.getCurrentTier();
                     String newTier = rule.getToTier();
                     
                     customer.setCurrentTier(newTier);
                     customerRepo.save(customer);
 
-                    // 5. Log History
                     TierHistoryRecord history = new TierHistoryRecord(
                             customer, oldTier, newTier, 
                             "Upgrade triggered: Spend=" + totalSpend + ", Visits=" + totalVisits
@@ -67,7 +59,7 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
                 }
             }
         }
-        return null; // No upgrade occurred
+        return null;
     }
 
     @Override

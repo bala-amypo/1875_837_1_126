@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.VisitRecord;
+import com.example.demo.model.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
-
     private final VisitRecordRepository repository;
     private static final Set<String> VALID_CHANNELS = Set.of("STORE", "APP", "WEB");
 

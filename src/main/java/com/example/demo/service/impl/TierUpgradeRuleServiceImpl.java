@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.TierUpgradeRule;
+import com.example.demo.model.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
 import com.example.demo.service.TierUpgradeRuleService;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
-
     private final TierUpgradeRuleRepository repository;
 
     public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repository) {

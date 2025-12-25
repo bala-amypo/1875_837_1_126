@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
@@ -10,36 +10,19 @@ import java.util.List;
 @RequestMapping("/api/customers")
 @Tag(name = "Customer Profiles")
 public class CustomerProfileController {
-
     private final CustomerProfileService service;
-
-    public CustomerProfileController(CustomerProfileService service) {
-        this.service = service;
-    }
+    public CustomerProfileController(CustomerProfileService service) { this.service = service; }
 
     @PostMapping
-    public CustomerProfile create(@RequestBody CustomerProfile c) {
-        return service.createCustomer(c);
-    }
-
+    public CustomerProfile create(@RequestBody CustomerProfile c) { return service.createCustomer(c); }
     @GetMapping("/{id}")
-    public CustomerProfile getById(@PathVariable Long id) {
-        return service.getCustomerById(id);
-    }
-
+    public CustomerProfile getById(@PathVariable Long id) { return service.getCustomerById(id); }
     @GetMapping
-    public List<CustomerProfile> getAll() {
-        return service.getAllCustomers();
-    }
-
+    public List<CustomerProfile> getAll() { return service.getAllCustomers(); }
     @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String newTier) {
-        return service.updateTier(id, newTier);
-    }
-
+    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String newTier) { return service.updateTier(id, newTier); }
     @GetMapping("/lookup/{customerId}")
     public CustomerProfile lookup(@PathVariable String customerId) {
-        return service.findByCustomerId(customerId)
-                .orElseThrow(() -> new java.util.NoSuchElementException("Customer not found"));
+        return service.findByCustomerId(customerId).orElseThrow(() -> new java.util.NoSuchElementException("Customer not found"));
     }
 }

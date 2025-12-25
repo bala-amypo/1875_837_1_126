@@ -10,7 +10,6 @@ public class ApiResponse {
         this.message = message;
         this.data = data;
     }
-    // Getters
     public boolean isSuccess() { return success; }
     public String getMessage() { return message; }
     public Object getData() { return data; }
