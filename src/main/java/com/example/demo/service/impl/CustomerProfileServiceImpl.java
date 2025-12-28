@@ -16,19 +16,25 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         this.repository = repository;
     }
 
-    @Override
-    public CustomerProfile createCustomer(CustomerProfile customer) {
-        if (repository.findByCustomerId(customer.getCustomerId()).isPresent()) {
-            throw new IllegalArgumentException("Customer ID already exists");
-        }
-        if (repository.findByEmail(customer.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-        if (repository.findByPhone(customer.getPhone()).isPresent()) {
-            throw new IllegalArgumentException("Phone already exists");
-        }
-        return repository.save(customer);
+   @Override
+public CustomerProfile createCustomer(CustomerProfile customer) {
+
+    // generate customerId automatically
+    customer.setCustomerId("CUST-" + System.currentTimeMillis());
+
+    if (repository.findByCustomerId(customer.getCustomerId()).isPresent()) {
+        throw new IllegalArgumentException("Customer ID already exists");
     }
+    if (repository.findByEmail(customer.getEmail()).isPresent()) {
+        throw new IllegalArgumentException("Email already exists");
+    }
+    if (repository.findByPhone(customer.getPhone()).isPresent()) {
+        throw new IllegalArgumentException("Phone already exists");
+    }
+
+    return repository.save(customer);
+}
+
 
     @Override
     public CustomerProfile getCustomerById(Long id) {
